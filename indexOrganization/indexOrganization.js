@@ -29,7 +29,7 @@ var creds = new AWS.EnvironmentCredentials('AWS');
 /* Lambda "main": Execution begins here */
 exports.handler = function(event, context, callback) {
     async.forEach(event.Records, function(record, cb) {
-        var NewImage = record.dynamodb.NewImage // XXX what do we do with deletions?? XXX
+        var NewImage = record.dynamodb.NewImage
         if (NewImage) {
             var data = dyno.deserialize(JSON.stringify(NewImage))
             client.index({
@@ -47,7 +47,7 @@ exports.handler = function(event, context, callback) {
                 cb()
             })
         } else {
-            var OldImage = record.dynamodb.OldImage // XXX what do we do with deletions?? XXX
+            var OldImage = record.dynamodb.OldImage
             var data = dyno.deserialize(JSON.stringify(OldImage))
             client.delete({
                 index: esDomain.index,
